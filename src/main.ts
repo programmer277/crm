@@ -10,10 +10,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      transformOptions: { enableImplicitConversion: true },
+      whitelist: true, // DTO'da yo‘q fieldlar o‘chadi
+      forbidNonWhitelisted: true, // ortiqcha field bo‘lsa 400
+      transform: true, // DTO transform ishlaydi
+      transformOptions: {
+        enableImplicitConversion: false, // ✅ MUHIM
+      },
     }),
   );
 

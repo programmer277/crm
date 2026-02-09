@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import type { ConfigType } from '@nestjs/config';
 
 import { envValidationSchema } from './config/env.validation';
 import { appConfig } from './config/app.config';
+
+import { RoomsModule } from './rooms/rooms.module';
+import { PrismaModule } from 'prisma/prisma.module';
 
 @Module({
   imports: [
@@ -12,8 +14,12 @@ import { appConfig } from './config/app.config';
       validationSchema: envValidationSchema,
       load: [appConfig],
     }),
+
+    // ✅ DB layer
+    PrismaModule,
+
+    // ✅ Feature module
+    RoomsModule,
   ],
-  providers: [],
-  controllers: [],
 })
 export class AppModule {}

@@ -13,8 +13,6 @@ RUN apk add --no-cache openssl
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# MUHIM: prisma papka build konteynerda bor bo‘lsin
-# (COPY . . qildi, shu yetadi)
 RUN npx prisma generate
 RUN npm run build
 
@@ -24,12 +22,11 @@ WORKDIR /app
 RUN apk add --no-cache openssl
 ENV NODE_ENV=production
 
-# MUHIM: node_modules ni build stage'dan olamiz (chunki .prisma shu yerda)
 COPY --from=build /app/node_modules ./node_modules
-
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/package*.json ./
+COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 
 EXPOSE 3000
 CMD ["node", "dist/src/main.js"]

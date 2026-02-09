@@ -1,8 +1,29 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
+  // output QOLMASIN!
 }
+
 
 datasource db {
   provider = "postgresql"
+}
+
+model Room {
+  id             String   @id @default(uuid())
+  schoolId        String
+
+  name           String
+  nameNormalized String
+
+  capacity       Int
+  isActive       Boolean  @default(true)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  deletedAt      DateTime?
+  deletedById    String?
+  deleteReason   String?
+
+  @@index([schoolId])
 }
